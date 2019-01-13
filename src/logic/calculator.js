@@ -24,5 +24,35 @@ export default function calculate(obj, buttonName) {
     if (buttonName === '0' && obj.next === '0') {
       return {};
     }
+    //if there is an operation, lets update next
+    if (obj.operation) {
+      if (obj.next) {
+        return { next: obj.next, buttonName };
+      }
+      return { next: buttonName };
+    }
+    //if there is no operation, update next and clear the value
+    if (obj.next) {
+      return {
+        next: obj.next + buttonName,
+        total: null
+      };
+    }
+    return {
+      next: buttonName,
+      total: null
+    };
+  }
+  if (buttonName === '%') {
+    if (obj.next && obj.operation) {
+      const result = operate(obj.total, obj.next, obj.operation);
+      return {
+        total: Big(result)
+          .div(Big('100'))
+          .toString()
+      };
+    }
+    //if not true, just return an empty object
+    return {};
   }
 }
