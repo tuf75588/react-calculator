@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
 import './App.css';
-import Display from './DisplayPanel/Display';
-import Button from './Button/Button';
+import Display from './Display/Display';
+
 import ButtonPanel from './ButtonPanel/ButtonPanel';
 
 class App extends Component {
