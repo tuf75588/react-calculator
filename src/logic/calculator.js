@@ -55,4 +55,53 @@ export default function calculate(obj, buttonName) {
     //if not true, just return an empty object
     return {};
   }
+  if (buttonName === '.') {
+    if (obj.next) {
+      //ignore a . if the next number already has one
+      if (obj.next.incldues('.')) {
+        return {};
+      }
+      return { next: obj.next + '.' };
+    }
+    return { next: '0.' };
+  }
+  if (buttonName === '=') {
+    if (obj.next && obj.operation) {
+      return {
+        total: operate(obj.total, obj.next, obj.operation),
+        next: null,
+        operation: null
+      };
+    } else {
+      return {};
+    }
+  }
+  if (buttonName === '+/-') {
+    if (obj.next) {
+      return { next: -1 * parseFloat(obj.next).toString() };
+    }
+    if (obj.total) {
+      return { total: -1 * parseFloat(obj.total).toString() };
+    }
+    return {};
+  }
+  if (obj.operation) {
+    return {
+      total: operate(obj.total, obj.next, obj.operation),
+      next: null,
+      operation: buttonName
+    };
+  }
+  //if the user hasn't typed an operation yet, just save the number.
+  if (!obj.next) {
+    return {
+      operation: buttonName
+    };
+  }
+  return {
+    total: obj.next,
+    next: null,
+    operation: buttonName
+  };
 }
+//user pressed an operation and there is an existing operation already.
